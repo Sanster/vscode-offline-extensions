@@ -10,15 +10,135 @@
             <svg id="logo" xmlns="http://www.w3.org/2000/svg" width="28" height="29"><path fill="#fff" d="M21 0l-11 12-7.333-5.666-2.667 1.682v13.984l2.667 1.666 7.333-5.666 11 11 7-3v-22.333l-7-3.667zm-18 19v-9l4 5-4 4zm11-4l7-6v12l-7-6z"/></svg>
             <h1>VSCode Offline Extensions</h1>
           </div>
-          <input type="text" id="itemName" placeholder="Item Name">
-          <input type="text" id="version" placeholder="Version">
+          <input type="text" id="itemName" placeholder="itemName">
+          <input type="text" id="version" placeholder="version">
           <button id="download-button" onclick="download()"> Download </button>
-          <div class="tip">Get the ItemName and Version from extension page's 'URL' and 'More Info'</div>
+          <div class="tips">
+            <div class="tip itemName-tip">
+              <div>Get the itemName from URL</div>
+              <img class="itemName-img" src="./itemName.png" alt="itemName">
+            </div>
+            <div class="tip version-tip">
+              <div>Get version from More Info</div>
+              <img class="version-img" src="./version.png" alt="version">
+            </div>
+          </div>
           <!--<div class="tip">After download, rename the file and give it the <strong>*.vsix</strong> extension</div>-->
         </div>
       </div>
   </body>
-  <script src="./jquery-3.1.1.min.js"> </script>
-  <script src="./main.js"> </script>
-  <link rel="stylesheet" href="./style.css">
+  <script>
+    function download() {
+      var itemName = document.getElementById('itemName').value
+      var version = document.getElementById('version').value
+      if (!itemName || !version) {
+        return
+      }
+      var publisher = itemName.split('.')[0]
+      var extensionName = itemName.split('.')[1]
+      console.log(publisher)
+      console.log(extensionName)
+      var requestUrl = `https://${publisher}.gallery.vsassets.io/_apis/public/gallery/publisher/${publisher}/extension/${extensionName}/${version}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage`
+      console.log(requestUrl)
+      window.location.href = requestUrl
+    }
+  </script>
+  <style>
+    body {
+      background: #373277;
+      margin: 0px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 15px;
+    }
+
+    #logo {
+      padding-right: 10px;
+    }
+
+    h1 {
+      color: white;
+      margin: 0px;
+      display: inline-block;
+    }
+
+    .container {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      align-items: center;
+    }
+
+    .content {
+      width: 100%;
+    }
+
+    #download-button {
+      border: none;
+      background: #477a32;
+      color: white;
+      width: 120px;
+      height: 36px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    #download-button:hover {
+      background: #58973e;
+    }
+
+    #download-button:focus {
+      outline: none;
+    }
+
+    #itemName, #version {
+      outline: none;
+      border: none;
+      background-color: #fff;
+      height: 30px;
+      margin: 9px;
+      font-size: 14px;
+      padding-left: 8px;
+    }
+
+    #itemName {
+      width: 300px;
+    }
+
+    #version {
+      width: 80px;
+    }
+
+    .tips {
+      margin-top: 26px;
+    }
+
+    .tip {
+      color: white;
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+
+    .version-tip {
+      margin-top: 26px;
+    }
+
+    .version-img {
+      height: 120px;
+    }
+
+    .itemName-img {
+      height: 210px;
+    }
+
+    .version-img, .itemName-img {
+      margin-top: 10px;
+    }
+  </style>
 </html>
